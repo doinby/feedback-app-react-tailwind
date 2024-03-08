@@ -1,35 +1,27 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Header from './components/Header'
+import FeedbackData from './data/FeedbackData.json'
+import FeedbackList from './components/FeedbackList'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [feedback, setFeedback] = useState(FeedbackData);
+
+  // function deleteFeedback takes in an ID which is a number
+  // that is returned when 'x' button was clicked
+  function deleteFeedback(id) {
+    if(window.confirm('Are you sure you want to delete?')) {
+      // feedback.filter() returns feedback items that aren't
+      // a match with the ID being returned above
+      setFeedback(feedback.filter((item) => item.id !== id))
+    }
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header />
+      <main className='px-8 py-16'>
+        <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
+      </main>
     </>
   )
 }
-
-export default App
